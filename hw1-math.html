@@ -1,0 +1,317 @@
+<html>
+
+   <head>
+      <title> Math Functions </title>
+      <meta charset="UTF-8">
+
+      <link rel="stylesheet" href="styles.css">
+
+      <h1> <center> Part 1 Math  </center></h1>
+
+      <br>
+      <style>
+      body {margin-left: 100px; background-color: #f5f5dc;}
+      .w {width: 600px;}
+
+      p     { display: table-row;  }
+      label { display: table-cell; }
+      input { display: table-cell; }
+      </style>
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+  </head>
+
+      <body>
+<blockquote cite="http://www.worldwildlife.org/who/index.html">
+This sccript uses <b>Math.round, Math.sqrt and Math.floor, toFixed()</b> functions to obtain the following:
+<ol type="a">
+  <li>  displays the original floating-point number</li>
+  <li>	the number rounded to the nearest integer</li>
+  <li>	the square root of the number that is then rounded to an integer</li>
+  <li>	the number rounded to the nearest tenth</li>
+  <li>	the number rounded to the nearest hundredth</li>
+  <li>	the number rounded to the nearest thousandth</li>
+
+</ol>
+</blockquote>
+
+        <h4> Enter Decimal Number AT LEAST 4 decimal positions (no less than that).</h4>
+        <p id=demo1>  </p>
+      <form id="myForm">
+        <p>
+        <label for="num_Fahr" > Decimal number</label>
+        <input id="num_Fahr" name="mult_calc" size="20"  onchange="myFunction_game()" text-align: right; onkeypress="tableInputKeyPress(event)">
+        <!-- <input id="num_Fahr" size="20" name="mult_calc" onchange="myFunction_game()" text-align: right> -->
+      </p>
+         <br><br><br>
+
+         Output:
+         <br>
+         <textarea id="myTextarea"  rows="8" cols="50">
+           ****
+         </textarea>
+
+         <br><br><br>
+
+
+         <button type="button" onclick="myPlayAgain()"> Play again </button>
+            <br><br>
+
+
+      </form>
+
+      <script>
+
+      /*************************************************
+      steps:
+      1. calls myFunction_game() main function
+      2. Get input text value
+      3. Call myFunctionValidate() function to validate input
+      4. math functions
+      5. DisplayText() function to display data in textarea field
+
+      reference: https://www.mediacollege.com/internet/javascript/form/add-text.html
+      ***************************************************/
+
+      //global variables
+      var num1=0;
+      var num2=0;
+      var totalValue=0;
+      var counter=0; //counter to while loop later
+      var enter_key_track=0;
+
+//      The round() method can be used to round a floating-point number to an integer.
+      function RoundNumber (x)
+      {
+        var y=0;
+        y = Math.round( x );  //-  rounds x to the nearest integer and places it in y.
+        return y;
+      }
+
+//      Math method sqrt() can be used to find the square root of a number.
+      function SqrRootNumber(x)
+      {
+        var y;
+        y = Math.sqrt( x );  //  finds the square root of x and places it in y.
+        return y;
+      }
+
+//      Math method floor() can be used to round a floating-point number to a specific decimal place.
+      function NumberToFloor(x)
+      {
+        var y=0, y1=0;
+        y = Math.floor( x * 10 + .5 ) / 10;  // rounds x to the tenths position (the first position to the right of the decimal point) and places it in y.
+        y1 = Math.floor( x * 100 + .5 ) / 100;  //rounds x to the hundredths position (the second position to the right of the decimal point) and places it in y.
+      }
+
+      function MathFunctions (x)
+      {
+        var text="";
+        var num=Number(x);
+        //var n=num.toFixed(2);
+
+        document.getElementById("myTextarea").rows = "10";
+        document.getElementById("myTextarea").cols = "52";
+
+        text = "The original value is = "+x+"\n\n";
+        text = text+"Rounded to the nearest integer is = "+Math.round(x)+"\n";  //-  rounds x to the nearest integer and places it in y.
+        text = text+"Square root is ="+Math.round(Math.sqrt( x ))+"\n";  //  finds the square root of x and places it in y.
+
+        text = text+"Round to the tenths pos. using toFixed(1) = "+num.toFixed(1)+"\n";
+        //text = text+"Rounds to the tenths position ="+Math.floor( x * 10 + .5 ) / 10+"\n";  // rounds x to the tenths position (the first position to the right of the decimal point) and places it in y.
+
+        text = text+"Round to the hundredths pos. using toFixed(2) = "+num.toFixed(2)+"\n";
+        //text = text+"Round to the hundredths position is = "+ Math.floor( x * 100 + .5 ) / 100+"\n";  //rounds x to the hundredths position (the second position to the right of the decimal point) and places it in y.
+
+        //text = text+"Round to the thousands position is = "+ Math.floor( x * 1000 + .5 ) / 1000+"\n";  //rounds x to the thousands position
+        text = text+"Round to the thousands pos. using toFixed(3) = "+num.toFixed(3);+"\n";
+        //document.getElementById("myTextarea").value = text;
+        return text;
+      }
+
+      myResetFunction()
+
+
+      // prints question
+      //document.getElementById("demo1").innerHTML = "How much is "+num1+" times "+num2+"?";
+
+      // play gain function call from a button
+      function myPlayAgain ()
+      {
+
+        location.reload();
+
+      }
+
+      // this prints the question
+      function printQuestion()
+      {
+
+          document.getElementById("demo1").innerHTML = "Enter decimal number";
+      }
+
+      // this function resets all fields in the form
+      function myResetFunction()
+        {
+          //myFunctionreset_fields()
+          document.getElementById("myForm").reset();
+          num1=0;
+          num2=0;
+          totalValue=0;
+          document.getElementById("demo1").innerHTML = " ";
+        }
+
+
+
+        function myConfirmFunction()
+        {
+            var txt;
+            if (confirm("Would you like to play again? \n press OK for YES!"))
+            {
+                myResetFunction();
+                printQuestion();
+            }
+            else
+            {
+                document.getElementById("myForm").reset();
+                num1=0;
+                num2=0;
+                totalValue=0;
+                document.getElementById("demo1").innerHTML = "Thank you for playing ";
+                document.getElementById("num_Fahr").value="Thank you for playing, bye";
+                //a.value="Thank you for playing";
+                return;
+            }
+
+        }
+
+        //check if a number is float or integer?
+        // if integer return true
+        // if float return false
+
+        function checkInt(value)
+        {
+            var er = /^-?[0-9]+$/;
+            return er.test(value);
+        }
+
+// this function verify input number will check if it is
+//decimal, or NaN, if decimal will check if it has 4 decimals in interval
+// I've used my own logic instead of parseFloat() since parsefloat function will cover cases
+//when input has numbers and chatacters etc "433asdf"
+
+      function myFunctionValidate(grade_value)
+      {
+        var x, text;
+
+        //verify if this is a float number
+        if (checkInt(grade_value) == true)
+        {
+          alert ("Input is not valid. Missing decimals. Please try again.");
+          document.getElementById("myForm").reset();
+          document.getElementById("num_Fahr").focus();
+          enter_key_trackk=1;
+          return 1; //return 1 if inputs not valid
+        }
+
+        var decpoint= (grade_value.length-1)-grade_value.indexOf('.');
+
+        // If x is Not a Number or less than one or greater than 10
+              if ( isNaN(grade_value) )
+              {
+                  //text = "Input not valid";
+                  console.log("Input not valid");
+                  alert ("Input is not valid. Please try again.");
+                  document.getElementById("myForm").reset();
+                  document.getElementById("num_Fahr").focus();
+                  enter_key_trackk=1;
+                  return 1; //return 1 if inputs not valid
+              }
+              if (decpoint<4)    // --- validate if the number has less than 4 decimals
+              {
+                console.log("the nnumber has less than 4 decimals");
+                alert ("the number has less than 4 decimals, try again");
+                document.getElementById("num_Fahr").focus();
+                enter_key_trackk=1;
+                return 1; //return 1 if inputs not valid
+              }
+
+
+              else {}return 0;
+
+          //document.getElementById("demo").innerHTML = text;
+      }
+      //*************************************************************************/
+      // function to get values
+        function myGetValues ()
+        {
+          // Get the value of the input field with id="numb"
+          tnum=document.getElementById("num_Fahr").value;
+          return tnum;
+        }
+
+        //*************************************************************************/
+        // function to get values in the textarea
+          function DisplayText (textvalue)
+          {
+            // display the value of the input field with id="numb"
+            if (myFunctionValidate(textvalue)==0)
+            {
+              //document.getElementById("myTextarea").value = "you entered "+RoundNumber(textvalue);
+              //document.getElementById("myTextarea").value = "you entered "+SqrRootNumber(textvalue);
+              //document.getElementById("myTextarea").value = "you entered "textvalue;
+              //MathFunctions(textvalue);
+              var test = MathFunctions(textvalue);
+
+              document.getElementById("myTextarea").value = test;
+
+            //  var obj=document.getElementById(myTextarea);
+            //  var txt=document.createTextNode(Math.round(textvalue)+"\n");
+            //  obj.appendChild(txt)
+
+
+            }
+
+
+          }
+
+      // main function to start with
+      //*********************************************************/
+      function myFunction_game()
+      {
+          //myFunctionValidate(tnum);
+          DisplayText(myGetValues ());
+          //document.getElementById("myTextarea").value = "you entered "+myGetValues ();
+          //    myFunctionValidate(myGetValues ());
+      }
+
+      //------------
+      function tableInputKeyPress(e)
+      {
+       // e=e||window.event;
+        var key = e.keyCode;
+
+        if(key==13) //Enter
+        {
+            e.preventDefault(); // this function prevents browser refresh on Enter key
+        	  //console.log("inner if statement called -eventPreventDef");
+            //myFunctionValidate(myGetValues ());
+            DisplayText(myGetValues ());
+           //do you task here...
+           return true; //return true to submit, false to do nothing
+        }
+      }
+
+      </script>
+
+
+
+   <br>
+   <br>
+   <h4>
+     <a href="main-obj.html"> return back to home page</a></li>
+   </h4>
+</html>

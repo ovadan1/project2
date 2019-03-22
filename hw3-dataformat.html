@@ -1,0 +1,224 @@
+<html>
+
+   <head>
+      <title>  Part 3</title>
+      <meta charset="UTF-8">
+
+      <link rel="stylesheet" href="styles.css">
+
+      <h1> <center> Part 3  </center></h1>
+      <br>
+      <style>
+      body {margin-left: 100px; background-color: #f5f5dc;}
+      .w {width: 600px;}
+
+      p     { display: table-row;  }
+      label { display: table-cell; }
+      input { display: table-cell; }
+      </style>
+
+      <script src=https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js></script>
+      <script src=https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js> </script>
+
+</head>
+
+<body onload="myFunction()">
+<h4> Current Date display </h4>
+
+  <blockquote cite="http://www.worldwildlife.org/who/index.html">
+
+  <ol type="a">
+    <li>Using toString(), toLocaleString() and toUTCString() for the Date object, this page writes the current date and time in 3 formats.</li>
+    <br>
+    <p id="demo1"> </p>
+    <p id="demo2"> </p>
+    <p id=demo3>   </p>
+    <br>
+
+    <li> Using the getTimezoneOffset() hours difference:
+    between PST or PDT (Pacific Standard Time or Pacific Daylight Time) and UTC </li>
+    <br>
+      <p id=demo4>   </p>
+    <br>
+    <li>Difference between EST or EDT (Eastern Standard Time or Eastern Daylight Time) and UTC</li>
+    <br>
+    <p id=demo5>   </p>
+
+    <br>
+
+  </ol>
+  </blockquote>
+
+<h4> Phone Number Format </h4>
+    <ol type="a">
+
+      <li>Below inputs telephone number as a string in the format (999) 999-9999.</li>
+      <li>The script uses String method split to extract the area code as a token, the first 3 digits of the phone number as a token, and the last 7 digits of the phone number as a token. </li>
+      <li> Displays the area code in one text field </li>
+      <li> Displays 7 digit phone number in another text field. </li>
+      <li> When user enters the phone number, it will automatically put the phone number in the (999) 999-9999 format</li>
+         Script uses jQuery mask for input from https://dobsondev.com/2017/04/14/using-jquery-mask-to-mask-form-input/
+
+    </ol>
+
+
+      <script>
+/*
+1.	on body onload , calls myFunction()
+2.	myFunction() will display time in differenttimezones.
+3.	When users enters a phone number,  it will call myFunction_game()
+4.	Then myGetValues(); to retrieve phone number
+5.	Then it will call normalize(phone) to format and extract area code.
+6.	Then will call jquery to mask the phone format
+
+*/
+
+      // main function to start with
+      //*********************************************************/
+      function myFunction()
+      {
+        var d = new Date();
+        //display times
+        document.getElementById("demo1").innerHTML = "Using toString() method       =  "+d.toString();
+        document.getElementById("demo2").innerHTML = "Using toLocaleString() method =  "+d.toLocaleString();
+        document.getElementById("demo3").innerHTML = "Using toUTCString() method    = "+d.toUTCString()
+
+        //timeoff set beetween different time zones
+        var n = d.getTimezoneOffset();
+        document.getElementById("demo4").innerHTML ="PST offset from UTC = -"+ n/60+" hours";
+        document.getElementById("demo5").innerHTML ="EST offset from UTC = -"+ (n/60-3)+" hours";
+      }
+
+
+      //---------------------------
+      function myFunction_game()
+      {
+          myGetValues();
+      }
+
+      // function to get values ---------------
+      function myGetValues ()
+        {
+          // Get the value of the input field with id="numb"
+          tnum=document.getElementById("phone-number").value;
+          if (tnum.length < 10)
+          {
+            alert ("invalid, please enter 10 digit number")
+            return false;
+          }
+
+          normalize(tnum);
+          //document.getElementById("demo"+i).innerHTML = " ";
+        }
+
+// function formats the phone number to US format
+      function normalize(phone) {
+          //normalize string and remove all unnecessary characters
+          var phone = phone.replace(/[^\d]/g, "");
+
+          //check if number length equals to 10
+          if (phone.length == 10)
+          {
+              //reformat and return phone number
+              //return phone.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3");
+              var phone1=phone.replace(/(\d{3})(\d{3})(\d{4})/, "$1");
+              var phone2=phone.replace(/(\d{3})(\d{3})(\d{4})/, "$2-$3");
+
+              //display area code
+              var a = document.getElementById("num_Fahr");
+              a.value=phone1;
+
+              //display phone number
+              var b = document.getElementById("num_Cel");
+              b.value=phone2;
+
+              //var fullnum=document.getElementById("phone-number");
+              //fullnum.value="("+phone1+") "+phone2;
+          }
+          else alert("you need to enter 10 digits only, pls correct");
+
+          return null;
+      }
+
+// jquery formats the phone number
+//https://css-tricks.com/input-masking/
+//https://dobsondev.com/2017/04/14/using-jquery-mask-to-mask-form-input/
+//https://www.w3schools.com/jquery/jquery_ref_selectors.asp
+//http://zparacha.com/phone_number_javascript_regex
+
+      $(document).ready(function()
+      {
+            $("#phone-number").mask('(000) 000 0000');
+      });
+
+
+      //--------function triggered when user presses on Enter key
+      function tableInputKeyPress(e)
+      {
+       // e=e||window.event;
+        var key = e.keyCode;
+
+        if(key==13) //Enter
+        {
+            e.preventDefault(); // this function prevents browser refresh on Enter key
+            //console.log("inner if statement called -eventPreventDef");
+
+            myGetValues ();
+
+           return true; //return true to submit, false to do nothing
+        }
+      }
+
+
+      function myPlayAgain ()
+      {
+
+        location.reload();
+        document.getElementById("myForm").reset();
+        document.getElementById("phone-number").focus();
+
+      }
+
+      </script>
+
+
+      <form id="myForm">
+        Type phone number here:
+        <br>
+
+        <input id="phone-number" label=test size="30"  class="search" value="" text-align: right; data-mask="(000) 000-0000", onkeypress="tableInputKeyPress(event)">
+        <input type="button" value="Format Phone Number" onclick="myFunction_game()">
+
+         <br><br><br>
+         <table id="myTable"
+                 <tr>
+                   <td><label for="num_Fahr" > Area Code</label></td>
+                   <td> <style='width: 200px;text-align: right;'>  </td>
+                   <td> <label for="num_Cel" > Phone Number</label> </td>
+                 </tr>
+
+                <tr>
+                 <td>
+                   <!--input id="num_Fahr" name="mult_calc" size="20"  onchange="myFunction_game()" text-align: right; onkeypress="tableInputKeyPress(event)"-->
+                    <input id="num_Fahr" size="20" name="mult_calc" text-align: right;>
+                 </td>
+                   <td> <style='width: 200px;text-align: right;'>  </td>
+                   <td> <input id="num_Cel"   size="30" name="midterm"  text-align: right> </td>
+                 </tr>
+
+         </table>
+               <br><br>
+
+         <button type="button" onclick="myPlayAgain()"> Play again </button>
+            <br><br>
+
+            <p id="demo4"></p>
+
+      </form>
+</body>
+   <br>
+   <br>
+   <h4>
+     <a href="main-obj.html"> return back to home page</a></li>
+   </h4>
+</html>

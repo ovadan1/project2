@@ -1,0 +1,361 @@
+<html>
+
+   <head>
+      <title> Part 2</title>
+      <meta charset="UTF-8">
+
+      <link rel="stylesheet" href="styles.css">
+
+      <h1> <center> Part 2  </center></h1>
+      <br>
+      <style>
+      body {margin-left: 100px; background-color: #f5f5dc;}
+      .w {width: 600px;}
+
+      p     { display: table-row;  }
+      label { display: table-cell; }
+      input { display: table-cell; }
+      </style>
+
+    <script>
+      //document.getElementById("myTextarea").rows = "10";
+      //document.getElementById("myTextarea").cols = "52";
+      </script>
+
+</head>
+
+<body>
+
+  <blockquote cite="http://www.worldwildlife.org/who/index.html">
+This page uses a form that allows the user to input several lines of text in top text field
+and a search character in input box and uses the String method charAt to determine the number of occurrences of the search character
+within the text.
+
+
+  <ol type="a">
+    <li>	Uses a form textarea for the text</li>
+    <li>	Uses form input box for the search character</li>
+    <li>	If the search character is found within the text, display the number of occurrences of the search character in another input box or a textarea (of course, those should be disabled for users to type anything)</li>
+    <li>	If the search character is not found within the text then display within a new window (using the window.open() method), the message, 'Search character not found in text string!' along with the search character - make sure that the output input box (or textarea) would be cleared if that error message is showing</li>
+    <li>	Your new window should be a width of 300 pixels, height of 100 pixels, and should not obscure any of the main content already on the page</li>
+
+
+  </ol>
+  </blockquote>
+
+      <script>
+
+      /*************************************************
+      steps:
+      1. calls myFunction_game() main function
+      2. Get input text value
+      3. Call myFunctionValidate() function to validate input
+      4. math functions
+      5. DisplayText() function to display data in textarea field
+
+      input text: id="num_Fahr"
+      search  result output: id="num_Cel"
+
+      reference: https://www.mediacollege.com/internet/javascript/form/add-text.html
+      ***************************************************/
+
+      //global variables
+      var textfield1="";
+      var searchstring="";
+      var totalValue=0;
+      var Resultcounter=0; //counter to while loop later
+      var enter_key_track=0;
+
+
+
+      // prints question
+      //document.getElementById("demo1").innerHTML = "How much is "+num1+" times "+num2+"?";
+
+      // play gain function call from a button
+      function myPlayAgain ()
+      {
+
+        location.reload();
+        document.getElementById("myForm").reset();
+        document.getElementById("num_Fahr").focus();
+
+      }
+
+      // this prints the question
+      function printQuestion()
+      {
+
+          document.getElementById("demo1").innerHTML = "Enter decimal number";
+      }
+
+      // this function resets all fields in the form
+      function myResetFunction()
+        {
+          //myFunctionreset_fields()
+          document.getElementById("myForm").reset();
+          num1=0;
+          num2=0;
+          totalValue=0;
+          document.getElementById("demo1").innerHTML = " ";
+        }
+
+
+
+        function myConfirmFunction()
+        {
+            var txt;
+            if (confirm("Would you like to play again? \n press OK for YES!"))
+            {
+                myResetFunction();
+                printQuestion();
+            }
+            else
+            {
+                document.getElementById("myForm").reset();
+                num1=0;
+                num2=0;
+                totalValue=0;
+                document.getElementById("demo1").innerHTML = "Thank you for playing ";
+                document.getElementById("num_Fahr").value="Thank you for playing, bye";
+                //a.value="Thank you for playing";
+                return;
+            }
+
+        }
+
+// function searches for char in the string and counts number ofo occurances
+      function SearchFunc(textfield1)
+      {
+        if (textfield1.length > 0)
+        {
+
+            for (var i=0; i<textfield1.legnth;i++)
+            {
+                if (textfield1.charAt(i) == searchstring) Resultcounter=Resultcounter+1;
+            }
+
+            DisplaySearchResults(Resultcounter);
+
+        }
+
+        if (searchstring.length==0 | textfield1.length==0)
+        {
+              console.log("enter data in fields")
+              //document.getElementById("myForm").reset();
+              document.getElementById("num_Fahr").focus();
+        }
+
+          //document.getElementById("demo").innerHTML = text;
+      }
+
+//***************** print search results *************
+function DisplaySearchResults(counter)
+{
+      if (counter > 0)
+        {
+
+          var a = document.getElementById("num_Cel");
+          a.value=counter;
+          //reset counter
+        }
+        Resultcounter = 0;
+
+}
+
+// Use these functiona to disable/enable input text field num_Fahr" > Ente
+function disableTxt() {
+    document.getElementById("num_Fahr").disabled = true;
+}
+
+function undisableTxt() {
+    document.getElementById("num_Fahr").disabled = false;
+  }
+
+      //*************************************************************************/
+      // function to get values
+        function myGetValues ()
+        {
+          searchstring=(document.getElementById("num_Fahr").value).toString();
+
+          // Get the value of the input field with id="myTextarea"
+          //textfield1=(document.getElementById("myTextarea").value).toString();
+          textfield1=(document.getElementById("myTextarea").value).toString();
+
+          if(textfield1.constructor == String)
+            {
+                 //console.log("this is sring ="+textfield1)
+                if (textfield1.length>0)
+                {
+                  for (var j=0; j<textfield1.length;j++)
+                  {
+                     //console.log(textfield1[j]);
+                     if (textfield1[j]==searchstring) Resultcounter=Resultcounter+1;;
+                  }
+
+                }
+
+                if (Resultcounter>0)
+                {
+                  DisplaySearchResults(Resultcounter);
+                }
+                else
+                {
+                  //window.open("name", "myTestWin", "width=500,height=400,resizable,scrollbars");
+                  passData(searchstring);
+                }
+
+            }
+
+
+          //document.getElementById("demo1").innerHTML = ArrayOfStrings[0];
+          //document.getElementById("demo1").innerHTML ="value of " test;
+
+          return textfield1;
+
+        }
+
+        //*************************************************************************/
+        // function to get values in the textarea
+          function DisplayText (textvalue)
+          {
+            // display the value of the input field with id="numb"
+            if (myFunctionValidate(textvalue)==0)
+            {
+              //document.getElementById("myTextarea").value = "you entered "+RoundNumber(textvalue);
+              //document.getElementById("myTextarea").value = "you entered "+SqrRootNumber(textvalue);
+              //document.getElementById("myTextarea").value = "you entered "textvalue;
+              //MathFunctions(textvalue);
+              var test = MathFunctions(textvalue);
+
+              document.getElementById("myTextarea").value = test;
+
+            //  var obj=document.getElementById(myTextarea);
+            //  var txt=document.createTextNode(Math.round(textvalue)+"\n");
+            //  obj.appendChild(txt)
+            }
+          }
+
+      // main function to start with
+      //*********************************************************/
+      function myFunction_game()
+      {
+          myGetValues ();
+
+      }
+
+      //------------
+      function tableInputKeyPress(e)
+      {
+       // e=e||window.event;
+        var key = e.keyCode;
+
+        if(key==13) //Enter
+        {
+            e.preventDefault(); // this function prevents browser refresh on Enter key
+        	  //console.log("inner if statement called -eventPreventDef");
+            //myFunctionValidate(myGetValues ());
+            myGetValues ();
+           //do you task here...
+           return true; //return true to submit, false to do nothing
+        }
+      }
+
+// invokes button click on press Enter key event in "search field"
+      var getinput = document.getElementById("num_Fahr");
+      getinput.addEventListener("keyup", function(event)
+      {
+          event.preventDefault();
+          if (event.keyCode === 13) {
+              document.getElementById("myBtn").click();
+          }
+      });
+
+
+//this function will display new pop up Window
+      function passData(searchtxt)
+      {
+          var name = searchtxt;
+
+          // assemble HTML to pump into new window:
+
+          var myText = "<html>\n";
+          myText += "<head>\n";
+          myText += "<title>Popup Window</title>\n";
+          myText += "</head>\n";
+          myText += "<body>\n";
+          myText += "<div style='margin:0 auto;'>\n";
+          myText += "<p><strong>Search character \"" + name + "\"not found in text string!</strong></p>\n";
+
+
+          //myText += "<input type='button' value='Close Window' onclick='window.close()'>\n";
+          myText += "</div>\n";
+          myText += "</body>\n";
+          myText += "</html>";
+
+          //clear ouput input field
+          var a = document.getElementById("num_Cel");
+          a.value="";
+
+
+          // open window on the upperleft of the screen
+            var newWindow = window.open("", "new_window",
+            "top=1,left=1,width=300,height=100");
+
+            // have browser focus on window
+
+            newWindow.focus();
+
+            // pop html into to this new opened window
+
+            newWindow.document.write(myText);
+
+            // tell browser that newWindow document is finished loading
+            newWindow.document.close();
+
+      }
+
+      </script>
+        <h4> Search for text </h4>
+        <p id=demo1>  </p>
+      <form id="myForm">
+
+        Type text here:
+        <br>
+        <textarea id="myTextarea"  rows="6" cols="40"> </textarea>
+
+
+         <br><br><br>
+         <table id="myTable"
+                 <tr>
+                   <td><label for="num_Fahr" > Enter Text for Search</label></td>
+                   <td> <style='width: 200px;text-align: right;'>  </td>
+                   <td> <label for="num_Cel" > Number of search matches</label> </td>
+                 </tr>
+
+                <tr>
+                 <td>
+                   <!--input id="num_Fahr" name="mult_calc" size="20"  onchange="myFunction_game()" text-align: right; onkeypress="tableInputKeyPress(event)"-->
+                    <input type=search, name=q id="num_Fahr" size="20" name="mult_calc" text-align: right; onkeypress="tableInputKeyPress(event)">
+                 </td>
+                   <td> <style='width: 200px;text-align: right;'>  </td>
+                   <td> <input id="num_Cel"   size="30" name="midterm"  text-align: right; readonly> </td>
+                 </tr>
+                 <tr>
+                   <td><button id="myBtn" type="button" , onclick=myFunction_game() >  Search ==></button> </td>
+                  </tr>
+         </table>
+               <br><br>
+
+         <button type="button" onclick="myPlayAgain()"> Play again </button>
+            <br><br>
+
+            <p id="demo4"></p>
+
+      </form>
+</body>
+   <br>
+   <br>
+   <h4>
+     <a href="main-obj.html"> return back to home page</a></li>
+   </h4>
+</html>
